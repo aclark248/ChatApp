@@ -1,24 +1,19 @@
 # Set the working application directory
 # working_directory "/path/to/your/app"
+shared_dir = "/srv/shared"
 working_directory "/srv/ChatApp"
 
-# Unicorn PID file location
-# pid "/path/to/pids/unicorn.pid"
-pid "/var/www/my_app/pids/unicorn.pid"
+# Set unicorn options
+worker_processes 2
+preload_app true
+timeout 30
+
+# Path for the Unicorn socket
+listen "#{shared_dir}/sockets/unicorn.sock", :backlog => 64
 
 # Path to logs
-# stderr_path "/path/to/log/unicorn.log"
-# stdout_path "/path/to/log/unicorn.log"
 stderr_path "/var/www/my_app/log/unicorn.log"
 stdout_path "/var/www/my_app/log/unicorn.log"
 
-# Unicorn socket
-listen "/tmp/unicorn.[app name].sock"
-listen "/tmp/unicorn.myapp.sock"
-
-# Number of processes
-# worker_processes 4
-worker_processes 2
-
-# Time-out
-timeout 30
+# Set proccess id path
+pid "#{shared_dir}/pids/unicorn.pid"
